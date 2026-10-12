@@ -4,7 +4,7 @@ One-line description of what this project does.
 
 ## Prerequisites
 
-- [Bootstrap](../../bootstrap/README.md) done.
+- [Setup](../../setup/README.md) done.
 - [Secrets exported and copied over](../../secrets/README.md).
 - A Bitwarden item `vps/<project>` with the custom fields listed in `secrets.env.example`.
 

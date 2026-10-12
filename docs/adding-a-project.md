@@ -1,6 +1,6 @@
 # Adding a project
 
-Each project is a self-contained folder under `projects/` that reuses the shared bootstrap and secrets layers.
+Each project is a self-contained folder under `projects/` that reuses the shared setup and secrets layers.
 
 ## Steps
 

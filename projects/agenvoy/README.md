@@ -4,7 +4,7 @@ A personal knowledge-management agent, self-hosted on the VPS. Runs 24/7 as a sy
 
 ## Prerequisites
 
-- [Bootstrap](../../bootstrap/README.md) done.
+- [Setup](../../setup/README.md) done.
 - [Secrets exported and copied over](../../secrets/README.md).
 - A Bitwarden item `vps/agenvoy` with custom fields:
   - `OPENROUTER_API_KEY` — your OpenRouter key.

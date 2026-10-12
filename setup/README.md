@@ -1,4 +1,4 @@
-# Bootstrap
+# Setup
 
 Server-level setup, run once per server as root.
 
@@ -11,7 +11,7 @@ Server-level setup, run once per server as root.
 
 ```bash
 ssh root@<host>
-curl -fsSL <this repo>/bootstrap/bootstrap.sh | bash -s -- <username>
+curl -fsSL <this repo>/setup/setup.sh | bash -s -- <username>
 ```
 
 Or copy the script over and run it directly. `<username>` defaults to `deploy`.

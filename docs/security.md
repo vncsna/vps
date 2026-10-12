@@ -9,7 +9,7 @@ How this repo and the servers it provisions stay safe.
 
 ## Server hardening
 
-`bootstrap/bootstrap.sh` hardens a fresh server:
+`setup/setup.sh` hardens a fresh server:
 
 - SSH: root login and password auth disabled (key-only login).
 - Firewall: `ufw` enabled, SSH only.
