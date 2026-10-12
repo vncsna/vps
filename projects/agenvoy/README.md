@@ -9,8 +9,10 @@ A personal knowledge-management agent, self-hosted on the VPS. Runs 24/7 as a sy
 - A Bitwarden item `vps/agenvoy` with custom fields:
   - `OPENROUTER_API_KEY` — your OpenRouter key.
   - `TELEGRAM_TOKEN` — a bot token from [@BotFather](https://t.me/BotFather).
+  - `GITHUB_TOKEN` — a fine-grained PAT scoped to the notes repo.
   - `OPENAI_API_KEY` (optional) — enables semantic search embeddings.
 - An OpenRouter account and a chosen model (e.g. `anthropic/claude-sonnet-4.5`).
+- A private `notes` repo on GitHub (the agent's knowledge base).
 
 ## Install
 
@@ -23,10 +25,25 @@ Installs the `agen` binary and its dependencies (`bwrap`, `pdftotext`, etc.).
 ## Configure
 
 ```bash
-projects/agenvoy/configure.sh <openrouter-model>
+projects/agenvoy/configure.sh <openrouter-model> <notes-repo-url>
 ```
 
-This syncs secrets from Bitwarden into `~/.config/agenvoy/.secrets`, registers the OpenRouter model, and enables the Telegram bot. The daemon must be running (see below) for the model/channel calls to succeed.
+This syncs secrets from Bitwarden into `~/.config/agenvoy/.secrets`, registers the OpenRouter model, enables the Telegram bot, and (if a notes repo URL is given) bootstraps the notes repo. The daemon must be running (see below) for the model/channel calls to succeed.
+
+## Notes repo
+
+The agent's knowledge lives in a private git repo, cloned to `~/repos/notes/`. `setup-notes.sh` creates the workspace, clones the repo, seeds `profile.md` from the template, and configures git push auth via `GITHUB_TOKEN`. Edit `~/repos/notes/profile.md` with your details after setup.
+
+## Persona
+
+`persona.md` is the agent's role — it tells the agent how to save notes, maintain `profile.md`, and commit + push. Apply it to a session (the Telegram session is the one you use day-to-day):
+
+```bash
+projects/agenvoy/set-persona.sh            # lists sessions
+projects/agenvoy/set-persona.sh <session-id>
+```
+
+Message the bot once first so its session exists.
 
 ## Run as a service
 
@@ -61,4 +78,6 @@ projects/agenvoy/tunnel.sh <user>@<host>
 
 ## Knowledge management
 
-Agenvoy ships with long-term memory, file search, RAG (KuraDB), skills, and a scheduler. Start by asking it to capture notes; it builds its own tools and memory as you go. See the [Agenvoy docs](https://agenvoy.com/docs/) for the full feature set.
+The agent captures notes into the notes repo (searched with its built-in file search), keeps stable facts in `profile.md`, and remembers past conversations via its built-in memory. Start by asking it to capture notes; it builds its own tools and memory as you go. See the [Agenvoy docs](https://agenvoy.com/docs/) for the full feature set.
+
+Long-document RAG (papers, PDFs) is deferred — [PageIndex](https://github.com/VectifyAI/PageIndex) is a candidate for that later.
