@@ -37,15 +37,18 @@ PasswordAuthentication no
 EOF
 systemctl reload ssh
 
+# --- packages ---
+apt-get update
+apt-get install -y --no-install-recommends \
+  ufw fail2ban unattended-upgrades python3-systemd \
+  git curl ca-certificates jq unzip
+
 # --- firewall ---
 ufw allow OpenSSH
 ufw --force enable
 
-# --- packages ---
-apt-get update
-apt-get install -y --no-install-recommends \
-  fail2ban unattended-upgrades \
-  git curl ca-certificates jq unzip
+# --- fail2ban: read sshd logs from the journal (no rsyslog on Debian 12) ---
+printf '[sshd]\nbackend = systemd\n' > /etc/fail2ban/jail.d/sshd-backend.conf
 
 # --- services ---
 systemctl enable --now fail2ban
