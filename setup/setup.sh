@@ -12,6 +12,15 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
+# Fail loudly if there's no key to hand off to the new user. Without this, the
+# sshd hardening below would disable root + password login with no working key
+# left, locking out all SSH access (see docs/ssh-lockout.md).
+if [[ ! -s /root/.ssh/authorized_keys ]]; then
+  echo "error: /root/.ssh/authorized_keys is missing or empty." >&2
+  echo "add your SSH public key to root before running this script." >&2
+  exit 1
+fi
+
 # --- user ---
 if ! id "$USERNAME" &>/dev/null; then
   adduser --disabled-password --gecos "" "$USERNAME"
@@ -23,11 +32,15 @@ fi
 echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > "/etc/sudoers.d/90-$USERNAME"
 chmod 440 "/etc/sudoers.d/90-$USERNAME"
 
-# Copy root's authorized_keys to the new user (assumes your key is on root).
-if [[ -f /root/.ssh/authorized_keys ]]; then
-  install -d -m 700 -o "$USERNAME" -g "$USERNAME" "/home/$USERNAME/.ssh"
-  install -m 600 -o "$USERNAME" -g "$USERNAME" \
-    /root/.ssh/authorized_keys "/home/$USERNAME/.ssh/authorized_keys"
+# Copy root's authorized_keys to the new user (verified non-empty above).
+install -d -m 700 -o "$USERNAME" -g "$USERNAME" "/home/$USERNAME/.ssh"
+install -m 600 -o "$USERNAME" -g "$USERNAME" \
+  /root/.ssh/authorized_keys "/home/$USERNAME/.ssh/authorized_keys"
+
+# Verify the handoff before disabling root login.
+if [[ ! -s "/home/$USERNAME/.ssh/authorized_keys" ]]; then
+  echo "error: failed to copy authorized_keys to $USERNAME" >&2
+  exit 1
 fi
 
 # --- sshd hardening ---
