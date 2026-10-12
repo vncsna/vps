@@ -67,9 +67,11 @@ curl -X POST http://127.0.0.1:17989/v1/channel/admin \
 
 Then message the bot, read the code from the relay, and reply with it. Authorized chat IDs are stored in `~/.config/agenvoy/.telegram`.
 
-## Dashboard (maintenance)
+## Dashboard
 
-The dashboard and REST API listen on `127.0.0.1:17989`. Reach them over SSH:
+The dashboard and REST API listen on `127.0.0.1:17989`. They are exposed publicly at a hostname of your choosing via Cloudflare Tunnel, gated by Cloudflare Access (email OTP) so only you can reach it. See [Cloudflare Tunnel](../../docs/cloudflare-tunnel.md).
+
+SSH tunnel remains a fallback:
 
 ```bash
 projects/agenvoy/tunnel.sh <user>@<host>
