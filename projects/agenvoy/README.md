@@ -5,7 +5,7 @@ A personal knowledge-management agent, self-hosted on the VPS. Runs 24/7 as a sy
 ## Prerequisites
 
 - [Bootstrap](../../bootstrap/README.md) done.
-- [Bitwarden CLI logged in](../../secrets/README.md).
+- [Secrets exported and copied over](../../secrets/README.md).
 - A Bitwarden item `vps/agenvoy` with custom fields:
   - `OPENROUTER_API_KEY` — your OpenRouter key.
   - `TELEGRAM_TOKEN` — a bot token from [@BotFather](https://t.me/BotFather).
@@ -28,7 +28,7 @@ Installs the `agen` binary and its dependencies (`bwrap`, `pdftotext`, etc.).
 projects/agenvoy/configure.sh <openrouter-model> <notes-repo-url>
 ```
 
-This syncs secrets from Bitwarden into `~/.config/agenvoy/.secrets`, registers the OpenRouter model, enables the Telegram bot, and (if a notes repo URL is given) bootstraps the notes repo. The daemon must be running (see below) for the model/channel calls to succeed.
+This registers the OpenRouter model, enables the Telegram bot, and (if a notes repo URL is given) bootstraps the notes repo. It expects the secrets to already be in `~/.config/agenvoy/.secrets` (exported locally and copied over). The daemon must be running (see below) for the model/channel calls to succeed.
 
 ## Notes repo
 

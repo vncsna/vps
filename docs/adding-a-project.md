@@ -12,14 +12,15 @@ Each project is a self-contained folder under `projects/` that reuses the shared
 
 2. Fill in `secrets.env.example` with the keys the project needs, and create a matching Bitwarden item named `vps/<name>` with one custom field per key.
 
-3. Write `install.sh` (install the software) and `configure.sh` (sync secrets and configure it).
+3. Write `install.sh` (install the software) and `configure.sh` (configure it; secrets are already copied over).
 
 4. Add systemd units under `systemd/`.
 
-5. On the server:
+5. Export secrets locally and copy them over, then on the server:
 
    ```bash
-   secrets/sync-secrets.sh <name>
+   secrets/export-secrets.sh <name>          # on your local machine
+   scp .env deploy@<host>:~/.config/<name>/.secrets
    projects/<name>/install.sh
    projects/<name>/configure.sh
    sudo cp projects/<name>/systemd/*.service /etc/systemd/system/
@@ -32,5 +33,5 @@ Each project is a self-contained folder under `projects/` that reuses the shared
 ## Conventions
 
 - Secrets are never committed — only `*.env.example` manifests are tracked.
-- `sync-secrets.sh <name>` writes to `~/.config/<name>/.secrets` by default; pass a second argument to override the destination.
+- `export-secrets.sh <name>` writes to `./.env` by default; pass a second argument to override the destination. Copy it to `~/.config/<name>/.secrets` on the server.
 - Keep `install.sh` and `configure.sh` idempotent so they can be re-run safely.

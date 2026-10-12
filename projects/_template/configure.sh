@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# configure.sh — sync secrets and configure <project>.
+# configure.sh — configure <project> (secrets already copied over).
 # TODO
