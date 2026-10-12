@@ -4,7 +4,7 @@ How this repo and the servers it provisions stay safe.
 
 ## Repo hygiene
 
-- **No secrets are ever committed.** Only `*.env.example` manifests are tracked; real values live in a secrets manager and are exported locally (see `secrets/`). `.env` and `.secrets` are gitignored.
+- **No secrets are ever committed.** Only `*.env.example` manifests are tracked; real values live in a secrets manager and are exported locally (see [`../secrets/`](../secrets/)). `.secrets` is gitignored.
 - **History is clean.** No secret values or personal details (emails, tokens, hostnames) appear in any commit.
 
 ## Server hardening

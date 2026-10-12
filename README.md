@@ -29,3 +29,7 @@ docs/          conventions and how-tos
 ## Adding a project
 
 See [docs/adding-a-project.md](docs/adding-a-project.md).
+
+## Security
+
+See [docs/security.md](docs/security.md).
