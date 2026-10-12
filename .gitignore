@@ -1,0 +1,4 @@
+# Never commit secrets. Only *.env.example manifests are tracked.
+*.env
+.env
+.secrets
