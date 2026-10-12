@@ -3,4 +3,4 @@
 - [Adding a project](adding-a-project.md)
 - [Cloudflare Tunnel](cloudflare-tunnel.md)
 - [Security](security.md)
-- [SSH lockout incident](ssh-lockout.md)
+- [SSH username mismatch incident](ssh-username-mismatch.md)

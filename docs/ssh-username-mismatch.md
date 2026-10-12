@@ -1,37 +1,30 @@
-# SSH lockout after setup
+# SSH access confusion after setup
 
 ## What happened
 
-After running `setup.sh`, SSH access to the server was lost. Root login was
-disabled and the `deploy` user rejected every available key, so no one could
-log in over SSH.
+After running `setup.sh`, SSH access appeared to be lost. Root login was
+disabled and attempts to log in as `deploy` failed, so it looked like a lockout.
 
 ## Root cause
 
-`setup.sh` copied root's `authorized_keys` to the new user *conditionally* —
-only if the file existed — and then unconditionally disabled root and password
-login. When root's `authorized_keys` was empty (the key wasn't present at setup
-time), the copy produced an empty `authorized_keys` for the new user, and the
-hardening then locked out all SSH access.
+The setup was run with the username `<user>`, not the script's default
+`deploy`. The `<user>` user had a working `authorized_keys` the whole time, but
+the SSH config still pointed at `root` (disabled by hardening), and `deploy`
+was never created. The "lockout" was a username mismatch, not a broken key
+handoff.
 
 ## Impact
 
-No SSH access to the server. The server itself stayed up (services kept
-running), but it could only be reached via the provider's out-of-band console.
+Temporary confusion and an unnecessary rescue-system detour. No actual loss of
+access — `<user>` was reachable throughout.
 
 ## Fix
 
-From the provider console, append a valid public key to the new user's
-`authorized_keys`:
-
-```bash
-mkdir -p /home/deploy/.ssh
-echo '<public-key>' >> /home/deploy/.ssh/authorized_keys
-chown -R deploy:deploy /home/deploy/.ssh
-chmod 700 /home/deploy/.ssh && chmod 600 /home/deploy/.ssh/authorized_keys
-```
+Point the SSH config at the real user (`<user>`) and use the correct key.
 
 ## Prevention
 
-`setup.sh` now fails loudly before hardening if there is no key to hand off,
-and verifies the copy landed before disabling root login.
+- The default username in `setup.sh` now matches the one actually used
+  (`<user>`), so the docs and scripts agree.
+- `setup.sh` also fails loudly before hardening if there is no key to hand
+  off, guarding against a real lockout if root's `authorized_keys` is empty.
