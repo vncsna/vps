@@ -9,10 +9,13 @@ MODEL="${1:-}"
 NOTES_REPO="${2:-}"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
-# 1. Sync secrets from Bitwarden into ~/.config/agenvoy/.secrets.
-"$REPO_ROOT/secrets/sync-secrets.sh" agenvoy
+# 1. Secrets must already be present (exported locally and copied over — see secrets/README.md).
+SECRETS_FILE="$HOME/.config/agenvoy/.secrets"
+if [[ ! -f "$SECRETS_FILE" ]]; then
+  echo "missing $SECRETS_FILE — export locally and scp it over (see secrets/README.md)" >&2
+  exit 1
+fi
 
 # 2. Register the OpenRouter model.
 if [[ -n "$MODEL" ]]; then
