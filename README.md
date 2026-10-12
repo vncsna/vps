@@ -21,7 +21,7 @@ docs/          conventions and how-tos
 
 ## Quick start
 
-1. Create a Hetzner server (Ubuntu 24.04 LTS) and add your SSH key to root.
+1. Create a Hetzner server (Debian 12) and add your SSH key to root.
 2. `ssh root@<host>` and run `bootstrap/bootstrap.sh [username]`.
 3. Log back in as that user, then run `secrets/install-bw.sh` and `secrets/login-bw.sh`.
 4. Follow a project's `README.md` (e.g. [projects/agenvoy](projects/agenvoy/)).

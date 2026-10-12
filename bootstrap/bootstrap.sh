@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# bootstrap.sh [username] — initial server setup. Run as root on a fresh Ubuntu.
+# bootstrap.sh [username] — initial server setup. Run as root on a fresh Debian.
 # Creates a sudo user, hardens sshd, enables ufw, and installs fail2ban,
 # unattended-upgrades, and base packages.
 

@@ -4,7 +4,7 @@ Server-level setup, run once per server as root.
 
 ## Prerequisites
 
-- A fresh Hetzner server running Ubuntu 24.04 LTS.
+- A fresh Hetzner server running Debian 12.
 - Your SSH public key added to root's `authorized_keys` (Hetzner lets you do this at creation time).
 
 ## Usage
