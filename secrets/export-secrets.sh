@@ -14,4 +14,4 @@ bw get item "$ITEM" --session "$(bw unlock --raw)" \
   > "$DEST"
 
 echo "wrote $(wc -l < "$DEST") secrets to $DEST"
-echo "copy to the server: scp $DEST deploy@<host>:~/.config/$PROJECT/.secrets"
+echo "copy to the server: scp $DEST <user>@<host>:~/.config/$PROJECT/.secrets"

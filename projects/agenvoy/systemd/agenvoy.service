@@ -6,7 +6,7 @@ Wants=network-online.target
 [Service]
 Type=simple
 # Run as the user whose ~/.config/agenvoy holds the config and .secrets.
-User=deploy
+User=<user>
 ExecStart=/usr/local/bin/agen --daemon
 Restart=on-failure
 RestartSec=5

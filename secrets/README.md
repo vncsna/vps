@@ -19,7 +19,7 @@ Fetches the `vps/<project>` item and writes its custom fields as `KEY=value` lin
 ## Copying to the server
 
 ```bash
-scp .secrets deploy@<host>:~/.config/<project>/.secrets
+scp .secrets <user>@<host>:~/.config/<project>/.secrets
 ```
 
 ## Rotating a secret

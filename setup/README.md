@@ -14,7 +14,7 @@ ssh root@<host>
 curl -fsSL <this repo>/setup/setup.sh | bash -s -- <username>
 ```
 
-Or copy the script over and run it directly. `<username>` defaults to `deploy`.
+Or copy the script over and run it directly. `<username>` defaults to `<user>`.
 
 ## What it does
 

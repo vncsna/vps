@@ -20,7 +20,7 @@ Each project is a self-contained folder under `projects/` that reuses the shared
 
    ```bash
    secrets/export-secrets.sh <name>          # on your local machine
-   scp .secrets deploy@<host>:~/.config/<name>/.secrets
+   scp .secrets <user>@<host>:~/.config/<name>/.secrets
    projects/<name>/install.sh
    projects/<name>/configure.sh
    sudo cp projects/<name>/systemd/*.service /etc/systemd/system/

@@ -5,7 +5,7 @@ set -euo pipefail
 # Creates a sudo user, hardens sshd, enables ufw, and installs fail2ban,
 # unattended-upgrades, and base packages.
 
-USERNAME="${1:-deploy}"
+USERNAME="${1:-<user>}"
 
 if [[ $EUID -ne 0 ]]; then
   echo "run as root" >&2
