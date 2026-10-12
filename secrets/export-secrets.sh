@@ -3,10 +3,10 @@ set -euo pipefail
 
 # export-secrets.sh <project> [dest] — run on your LOCAL machine, not the server.
 # Fetches the Bitwarden item "vps/<project>" and writes its custom fields as
-# KEY=value lines to <dest> (default ./.env). Copy the result to the server.
+# KEY=value lines to <dest> (default ./.secrets). Copy the result to the server.
 
 PROJECT="${1:?usage: export-secrets.sh <project> [dest]}"
-DEST="${2:-.env}"
+DEST="${2:-.secrets}"
 ITEM="vps/$PROJECT"
 
 bw get item "$ITEM" --session "$(bw unlock --raw)" \

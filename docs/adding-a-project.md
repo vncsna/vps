@@ -20,7 +20,7 @@ Each project is a self-contained folder under `projects/` that reuses the shared
 
    ```bash
    secrets/export-secrets.sh <name>          # on your local machine
-   scp .env deploy@<host>:~/.config/<name>/.secrets
+   scp .secrets deploy@<host>:~/.config/<name>/.secrets
    projects/<name>/install.sh
    projects/<name>/configure.sh
    sudo cp projects/<name>/systemd/*.service /etc/systemd/system/
@@ -33,5 +33,5 @@ Each project is a self-contained folder under `projects/` that reuses the shared
 ## Conventions
 
 - Secrets are never committed — only `*.env.example` manifests are tracked.
-- `export-secrets.sh <name>` writes to `./.env` by default; pass a second argument to override the destination. Copy it to `~/.config/<name>/.secrets` on the server.
+- `export-secrets.sh <name>` writes to `./.secrets` by default; pass a second argument to override the destination. Copy it to `~/.config/<name>/.secrets` on the server.
 - Keep `install.sh` and `configure.sh` idempotent so they can be re-run safely.

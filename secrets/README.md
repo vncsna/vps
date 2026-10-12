@@ -14,12 +14,12 @@ Requires the Bitwarden CLI (`bw`) and `jq` installed locally, and logged in (`bw
 secrets/export-secrets.sh <project> [dest]
 ```
 
-Fetches the `vps/<project>` item and writes its custom fields as `KEY=value` lines to `dest` (default `./.env`).
+Fetches the `vps/<project>` item and writes its custom fields as `KEY=value` lines to `dest` (default `./.secrets`).
 
 ## Copying to the server
 
 ```bash
-scp .env deploy@<host>:~/.config/<project>/.secrets
+scp .secrets deploy@<host>:~/.config/<project>/.secrets
 ```
 
 ## Rotating a secret
