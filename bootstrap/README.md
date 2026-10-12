@@ -18,7 +18,7 @@ Or copy the script over and run it directly. `<username>` defaults to `deploy`.
 
 ## What it does
 
-- Creates a sudo user and copies root's SSH key to it.
+- Creates a sudo user (with passwordless sudo, since login is key-only) and copies root's SSH key to it.
 - Hardens sshd (`PermitRootLogin no`, `PasswordAuthentication no`).
 - Enables `ufw` (allowing SSH only).
 - Installs `fail2ban`, `unattended-upgrades`, and base packages (`git`, `curl`, `jq`, `unzip`, `ca-certificates`).

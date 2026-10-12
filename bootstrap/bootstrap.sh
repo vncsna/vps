@@ -18,6 +18,11 @@ if ! id "$USERNAME" &>/dev/null; then
   usermod -aG sudo "$USERNAME"
 fi
 
+# The account has no password (key-only login), so grant passwordless sudo.
+# Without this, `sudo` would prompt for a password that can never be entered.
+echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > "/etc/sudoers.d/90-$USERNAME"
+chmod 440 "/etc/sudoers.d/90-$USERNAME"
+
 # Copy root's authorized_keys to the new user (assumes your key is on root).
 if [[ -f /root/.ssh/authorized_keys ]]; then
   install -d -m 700 -o "$USERNAME" -g "$USERNAME" "/home/$USERNAME/.ssh"
