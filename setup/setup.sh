@@ -14,7 +14,7 @@ fi
 
 # Fail loudly if there's no key to hand off to the new user. Without this, the
 # sshd hardening below would disable root + password login with no working key
-# left, locking out all SSH access (see docs/ssh-lockout.md).
+# left, locking out all SSH access (see docs/ssh-username-mismatch.md).
 if [[ ! -s /root/.ssh/authorized_keys ]]; then
   echo "error: /root/.ssh/authorized_keys is missing or empty." >&2
   echo "add your SSH public key to root before running this script." >&2
