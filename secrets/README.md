@@ -19,6 +19,7 @@ Fetches the `vps/<project>` item and writes its custom fields as `KEY=value` lin
 ## Copying to the server
 
 ```bash
+ssh <user>@<host> 'mkdir -p ~/.config/<project>'
 scp .secrets <user>@<host>:~/.config/<project>/.secrets
 ```
 
