@@ -9,6 +9,10 @@ PROJECT="${1:?usage: export-secrets.sh <project> [dest]}"
 DEST="${2:-.secrets}"
 ITEM="vps/$PROJECT"
 
+# Write secrets with 0600 so they never land world-readable on disk (or on the
+# server after scp, which preserves the mode).
+umask 077
+
 bw get item "$ITEM" --session "$(bw unlock --raw)" \
   | jq -r '.fields[]? | select(.value != null and .value != "") | "\(.name)=\(.value)"' \
   > "$DEST"
