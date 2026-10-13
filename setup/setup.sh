@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# setup.sh [username] — initial server setup. Run as root on a fresh Debian.
+# setup.sh <user> — initial server setup. Run as root on a fresh Debian.
 # Creates a sudo user, hardens sshd, enables ufw, and installs fail2ban,
 # unattended-upgrades, and base packages.
 
-USERNAME="${1:-<user>}"
+USERNAME="${1:?usage: setup.sh <user>}"
 
 if [[ $EUID -ne 0 ]]; then
   echo "run as root" >&2
