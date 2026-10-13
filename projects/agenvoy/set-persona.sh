@@ -10,7 +10,7 @@ PERSONA_FILE="$SCRIPT_DIR/persona.md"
 
 if [[ -z "$SESSION_ID" ]]; then
   echo "sessions:" >&2
-  curl -fsS http://127.0.0.1:17989/v1/sessions | jq -r '.[] | "\(.id)  \(.name)"'
+  curl -fsS http://127.0.0.1:17989/v1/sessions | jq -r '.sessions[] | "\(.id)  \(.name)"'
   echo >&2
   echo "usage: set-persona.sh <session-id>" >&2
   exit 1
