@@ -11,7 +11,7 @@ A personal knowledge-management agent, self-hosted on the VPS. Runs 24/7 as a sy
   - `TELEGRAM_TOKEN` — a bot token from [@BotFather](https://t.me/BotFather).
   - `GITHUB_TOKEN` — a fine-grained PAT scoped to the notes repo.
   - `OPENAI_API_KEY` (optional) — enables semantic search embeddings.
-- An OpenRouter account and the models `deepseek/deepseek-pro-latest` and `deepseek/deepseek-flash-latest`.
+- An OpenRouter account and the models `~deepseek/deepseek-pro-latest` and `~deepseek/deepseek-flash-latest`.
 - A private `notes` repo on GitHub (the agent's knowledge base).
 
 ## Install
@@ -25,8 +25,8 @@ Installs the `agen` binary and its dependencies (`bwrap`, `pdftotext`, etc.).
 ## Configure
 
 ```bash
-projects/agenvoy/configure.sh deepseek/deepseek-pro-latest <notes-repo-url>
-projects/agenvoy/configure.sh deepseek/deepseek-flash-latest <notes-repo-url>
+projects/agenvoy/configure.sh '~deepseek/deepseek-pro-latest' <notes-repo-url>
+projects/agenvoy/configure.sh '~deepseek/deepseek-flash-latest' <notes-repo-url>
 ```
 
 This registers the OpenRouter models, enables the Telegram bot, and (if a notes repo URL is given) bootstraps the notes repo. It expects the secrets to already be in `~/.config/agenvoy/.secrets` (exported locally and copied over). The daemon must be running (see below) for the model/channel calls to succeed.
