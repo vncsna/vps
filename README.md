@@ -22,7 +22,7 @@ docs/          conventions and how-tos
 ## Quick start
 
 1. Create a server (Debian 12) and add your SSH key to root.
-2. `ssh root@<host>` and run `setup/setup.sh [username]`.
+2. `ssh root@<host>` and run `setup/setup.sh <user>`.
 3. Export the project's secrets locally and copy them over (see [secrets](secrets/)).
 4. Follow a project's `README.md` (e.g. `projects/<project>/`).
 
