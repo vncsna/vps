@@ -11,7 +11,9 @@ Server-level setup, run once per server as root.
 
 ```bash
 ssh root@<host>
-curl -fsSL <this repo>/setup/setup.sh | bash -s -- <username>
+curl -fsSL <this repo>/setup/setup.sh -o setup.sh
+less setup.sh   # review before running
+bash setup.sh <username>
 ```
 
 Or copy the script over and run it directly. `<username>` defaults to `<user>`.
