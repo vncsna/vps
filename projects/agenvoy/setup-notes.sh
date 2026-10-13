@@ -28,10 +28,23 @@ if [[ -f "$SECRETS_FILE" ]]; then
   source "$SECRETS_FILE"
 fi
 if [[ -n "${GITHUB_TOKEN:-}" ]]; then
-  git config --global credential.helper store
-  umask 077
-  printf 'https://x-access-token:%s@github.com\n' "$GITHUB_TOKEN" > "$HOME/.git-credentials"
-  chmod 600 "$HOME/.git-credentials"
+  # Prefer the Secret Service keyring (encrypted at rest) over a plaintext
+  # credential file. secret-tool is installed by the agenvoy installer; on a
+  # headless server without a keyring this falls back to a 0600 plaintext file.
+  use_keyring=0
+  if command -v git-credential-libsecret >/dev/null 2>&1; then
+    git config --global credential.helper libsecret
+    if printf 'protocol=https\nhost=github.com\nusername=x-access-token\npassword=%s\n' \
+        "$GITHUB_TOKEN" | git credential approve 2>/dev/null; then
+      use_keyring=1
+    fi
+  fi
+  if [[ "$use_keyring" -eq 0 ]]; then
+    git config --global credential.helper store
+    umask 077
+    printf 'https://x-access-token:%s@github.com\n' "$GITHUB_TOKEN" > "$HOME/.git-credentials"
+    chmod 600 "$HOME/.git-credentials"
+  fi
   echo "configured git auth via GITHUB_TOKEN"
 else
   echo "warning: GITHUB_TOKEN not found in $SECRETS_FILE — clone/push will prompt" >&2
