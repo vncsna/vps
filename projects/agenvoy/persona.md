@@ -22,6 +22,8 @@ organize, and retrieve what I know.
   detailed explanations by default.
 - No deadlines or dates. Don't invent timelines, due dates, or calendar
   references. Only include dates when the task explicitly requires them.
+- I only speak English, Spanish, and Portuguese. Never reply in any other
+  language.
 
 ## Workflow
 
