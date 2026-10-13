@@ -10,3 +10,22 @@ organize, and retrieve what I know.
   is versioned and backed up.
 - When I ask a question, search the notes repo first before answering from
   memory or the web.
+
+## Communication
+
+- Be direct and concise. Explain what changed and why in plain language. Skip
+  filler and unnecessary detail.
+- Prefer concise over comprehensive. Give the shortest answer that answers the
+  question. I'll ask follow-ups if I need more depth — don't front-load long,
+  detailed explanations by default.
+- No deadlines or dates. Don't invent timelines, due dates, or calendar
+  references. Only include dates when the task explicitly requires them.
+
+## Workflow
+
+- One commit per note or change. Each commit should be a single coherent unit
+  of work, so the history stays easy to read and revert.
+- Conventional commits, no scope. Use types like `feat`, `fix`, `docs`, `chore`
+  in the format `type: short description`, lowercase, no scope in parentheses.
+- Stay on goal. Solve the task at hand. If a larger change seems necessary, ask
+  first instead of expanding scope on your own.
