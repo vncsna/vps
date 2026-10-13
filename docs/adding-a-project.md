@@ -36,3 +36,17 @@ Each project is a self-contained folder under `projects/` that reuses the shared
 - Secrets are never committed — only `*.env.example` manifests are tracked.
 - `export-secrets.sh <name>` writes to `./.secrets` by default; pass a second argument to override the destination. Copy it to `~/.config/<name>/.secrets` on the server.
 - Keep `install.sh` and `configure.sh` idempotent so they can be re-run safely.
+
+## Updating a project
+
+The repo is the source of truth; the server runs a copy. Changes under
+`projects/<name>/` don't take effect until they're synced over and re-applied:
+
+- **Persona** — copy `persona.md` and re-apply it to the session:
+  `projects/<name>/set-persona.sh <session-id>`.
+- **Scripts** — copy the changed script and re-run it.
+- **Systemd units** — copy the unit, then `sudo systemctl daemon-reload` and
+  `sudo systemctl restart <name>`.
+
+There's no automatic sync. Copy files with `scp`, or clone the repo on the
+server and `git pull` (that needs a deploy key or token scoped to this repo).

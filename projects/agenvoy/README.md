@@ -46,6 +46,9 @@ projects/agenvoy/set-persona.sh <session-id>
 
 Message the bot once first so its session exists.
 
+After editing `persona.md`, re-run `set-persona.sh <session-id>` to apply the
+change (see [Updating a project](../../docs/adding-a-project.md#updating-a-project)).
+
 ## Run as a service
 
 ```bash
