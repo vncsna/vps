@@ -43,6 +43,8 @@ read from `~/.config/coddy/.secrets`.
 [AGENTS.md](AGENTS.md) is Coddy's standing persona. The agent home copy is read
 in every session, whatever workspace it runs in; workspace and nested
 `AGENTS.md` files add to it, so a cloned repo can carry its own conventions.
+It also carries agenvoy's knowledge workflow: notes in `~/repos/notes/`,
+`profile.md`, commit and push, and search notes first.
 
 ## GitHub access
 
