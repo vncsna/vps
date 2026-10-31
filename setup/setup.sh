@@ -44,14 +44,23 @@ if [[ ! -s "/home/$USERNAME/.ssh/authorized_keys" ]]; then
 fi
 
 # --- sshd hardening ---
-cat > /etc/ssh/sshd_config.d/99-hardening.conf <<'EOF'
+# Debian includes sshd_config.d/*.conf at the top of sshd_config and the first
+# value wins, so this drop-in must sort before cloud-init's 50-cloud-init.conf.
+rm -f /etc/ssh/sshd_config.d/99-hardening.conf
+cat > /etc/ssh/sshd_config.d/00-hardening.conf <<'EOF'
 PermitRootLogin no
 PasswordAuthentication no
 KbdInteractiveAuthentication no
 EOF
 # Never apply a config that sshd refuses; a bad file plus a reload can lock
-# everyone out.
+# everyone out. Check the effective values too, since an earlier drop-in wins.
 sshd -t
+for setting in "permitrootlogin no" "passwordauthentication no" "kbdinteractiveauthentication no"; do
+  if ! sshd -T | grep -qx "$setting"; then
+    echo "error: sshd effective config is missing: $setting" >&2
+    exit 1
+  fi
+done
 systemctl reload ssh
 
 # --- packages ---
