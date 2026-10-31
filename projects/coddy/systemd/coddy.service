@@ -13,6 +13,9 @@ EnvironmentFile=/home/<user>/.config/coddy/.secrets
 ExecStart=/usr/local/bin/coddy serve
 Restart=on-failure
 RestartSec=5
+# The account has passwordless sudo for admin work; the agent must not be able
+# to use it.
+NoNewPrivileges=yes
 
 [Install]
 WantedBy=multi-user.target

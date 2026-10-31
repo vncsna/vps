@@ -10,6 +10,9 @@ User=<user>
 ExecStart=/usr/local/bin/agen --daemon
 Restart=on-failure
 RestartSec=5
+# The account has passwordless sudo for admin work; the daemon must not be able
+# to use it.
+NoNewPrivileges=yes
 
 [Install]
 WantedBy=multi-user.target

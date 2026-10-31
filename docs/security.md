@@ -25,6 +25,7 @@ How this repo and the servers it provisions stay safe.
 
 - Services bind to `127.0.0.1` only.
 - Public access (where needed) goes through a Cloudflare Tunnel gated by Cloudflare Access (email OTP).
+- Agent services run with `NoNewPrivileges=yes`, so a compromised agent cannot use the account's passwordless sudo to reach root.
 
 ## Reporting a vulnerability
 

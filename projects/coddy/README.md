@@ -74,3 +74,7 @@ projects/coddy/tunnel.sh <user>@<host>
 A new session starts in `ask` mode; the choice is kept per session. Scheduled
 jobs default to `bypass` — leave the scheduler disabled unless you have decided
 that unattended shell access as this user is acceptable.
+
+The unit sets `NoNewPrivileges=yes`, so the agent cannot use the account's
+passwordless sudo even if a tool call tries to. Anything that needs root has to
+be run by hand outside the service.
