@@ -23,6 +23,9 @@ agent:
 httpserver:
   host: "127.0.0.1"
   port: 12345
+  # Cloudflare Access is the gate in front of the tunnel; allow_insecure turns
+  # off the refusal of a foreign Host header on loopback.
+  allow_insecure: true
 
 gateways:
   telegram:

@@ -52,16 +52,22 @@ The unit names the user in three paths; the `sed` above fills all of them.
 
 ## Web UI
 
-The dashboard and API listen on `127.0.0.1:12345`. Use the SSH tunnel:
+The dashboard and API listen on `127.0.0.1:12345`, exposed at a hostname of your
+choosing through the Cloudflare Tunnel and gated by Cloudflare Access (email OTP),
+like agenvoy. See [Cloudflare Tunnel](../../docs/cloudflare-tunnel.md).
+
+`httpserver.allow_insecure` is on because the tunnel sends the public `Host`
+name to a loopback listener; without it Coddy answers `421`.
+
+The page is installable as a PWA. The tunnel hostname is https, so install and
+notifications work there.
+
+SSH tunnel remains a fallback:
 
 ```bash
 projects/coddy/tunnel.sh <user>@<host>
 # then open http://127.0.0.1:12345
 ```
-
-The page is installable as a PWA (https or localhost). Serving it off loopback
-means turning on `httpserver.login` (`coddy serve set-password --user <name>`)
-and fronting it with TLS, see [Cloudflare Tunnel](../../docs/cloudflare-tunnel.md).
 
 ## Permissions
 
