@@ -24,15 +24,17 @@ fi
 # git auth for clone + pushes (GITHUB_TOKEN from .secrets) — must be set before
 # cloning so private repos authenticate.
 if [[ -f "$SECRETS_FILE" ]]; then
-  # shellcheck disable=SC1090
-  source "$SECRETS_FILE"
+  while IFS='=' read -r key value; do
+    [[ -z "$key" || "$key" == \#* ]] && continue
+    printf -v "$key" '%s' "$value"
+  done < "$SECRETS_FILE"
 fi
 if [[ -n "${GITHUB_TOKEN:-}" ]]; then
   # Prefer the Secret Service keyring (encrypted at rest) over a plaintext
-  # credential file. secret-tool is installed by the agenvoy installer; on a
-  # headless server without a keyring this falls back to a 0600 plaintext file.
+  # credential file when git ships the helper. Stock Debian 12 does not, so
+  # this falls back to a 0600 plaintext file.
   use_keyring=0
-  if command -v git-credential-libsecret >/dev/null 2>&1; then
+  if [[ -x "$(git --exec-path)/git-credential-libsecret" ]]; then
     git config --global credential.helper libsecret
     if printf 'protocol=https\nhost=github.com\nusername=x-access-token\npassword=%s\n' \
         "$GITHUB_TOKEN" | git credential approve 2>/dev/null; then

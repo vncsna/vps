@@ -16,8 +16,10 @@ if [[ ! -f "$SECRETS_FILE" ]]; then
   echo "missing $SECRETS_FILE — export locally and scp it over (see secrets/README.md)" >&2
   exit 1
 fi
-# shellcheck disable=SC1090
-source "$SECRETS_FILE"
+while IFS='=' read -r key value; do
+  [[ -z "$key" || "$key" == \#* ]] && continue
+  printf -v "$key" '%s' "$value"
+done < "$SECRETS_FILE"
 
 # 2. Register the OpenRouter model.
 if [[ -n "$MODEL" ]]; then
