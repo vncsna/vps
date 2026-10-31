@@ -9,13 +9,16 @@ PROJECT="${1:?usage: export-secrets.sh <project> [dest]}"
 DEST="${2:-.secrets}"
 ITEM="vps/$PROJECT"
 
-# Write secrets with 0600 so they never land world-readable on disk (or on the
-# server after scp, which preserves the mode).
-umask 077
+# install -m 600 keeps the file 0600 even when DEST already exists, and the
+# temp file keeps the previous secrets if bw or jq fails.
+TMP="$(mktemp)"
+trap 'rm -f "$TMP"' EXIT
 
 bw get item "$ITEM" --session "$(bw unlock --raw)" \
   | jq -r '.fields[]? | select(.value != null and .value != "") | "\(.name)=\(.value)"' \
-  > "$DEST"
+  > "$TMP"
+
+install -m 600 "$TMP" "$DEST"
 
 echo "wrote $(wc -l < "$DEST") secrets to $DEST"
 echo "copy to the server:"
