@@ -76,6 +76,41 @@ Because `cloudflared` connects from `127.0.0.1`, the service's `localhostOnly` c
    WantedBy=multi-user.target
    ```
 
+## PWAs behind Access
+
+A browser installs a site as an app only if it can read the web app manifest. Chrome
+fetches the manifest and its icons **without cookies**, so Access answers with the
+login page and the browser sees HTML where it expected JSON — the install option
+never appears. The app is fine; the gate is in the way.
+
+Fix it with one more Access application per asset, each carrying a **Bypass** policy
+for everyone, so only those files are public:
+
+| Path | Why |
+|---|---|
+| `/manifest.webmanifest` | fetched without credentials |
+| every icon the manifest lists | install icons, also fetched by the WebAPK minter |
+| `/apple-touch-icon.png` | iOS home-screen icon |
+
+```bash
+curl -X POST "https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/apps" \
+  -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" \
+  -d '{"name":"<project> pwa","domain":"<hostname>/manifest.webmanifest","type":"self_hosted","session_duration":"24h","app_launcher_visible":false}'
+
+curl -X POST "https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/apps/$APP_ID/policies" \
+  -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" \
+  -d '{"name":"Public PWA asset","decision":"bypass","include":[{"everyone":{}}]}'
+```
+
+Access matches the path **exactly**, not as a prefix: a prefix like `/icon-` matches
+nothing, so every icon needs its own application. Keep the list to static shell
+assets — never bypass an API route or a page that renders data. Verify with an
+anonymous request; it should return the asset, while the app root still redirects
+to the login page.
+
+If the app controls its own HTML, adding `crossorigin="use-credentials"` to the
+manifest `<link>` also works, since the browser then sends the Access cookie.
+
 ## Rotating the API token
 
 The token is only used for the one-time setup above; `cloudflared` authenticates with its own tunnel credentials, not the API token. Revoke or rotate the API token freely after setup.
