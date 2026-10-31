@@ -8,4 +8,7 @@ they're synced over and re-applied.
   units), flag that the server needs updating and point to the sync step in
   [docs/adding-a-project.md](docs/adding-a-project.md#updating-a-project).
 - Never commit secrets — only `*.env.example` manifests are tracked.
+- No instance-specific values — no domains or hostnames, IPs, tunnel or
+  account IDs, or user names. Use placeholders (`<hostname>`, `<user>`) and
+  keep the real values on the server or in the secrets manager.
 - Follow the conventions in `docs/`.
