@@ -47,14 +47,26 @@ fi
 cat > /etc/ssh/sshd_config.d/99-hardening.conf <<'EOF'
 PermitRootLogin no
 PasswordAuthentication no
+KbdInteractiveAuthentication no
 EOF
+# Never apply a config that sshd refuses; a bad file plus a reload can lock
+# everyone out.
+sshd -t
 systemctl reload ssh
 
 # --- packages ---
+export DEBIAN_FRONTEND=noninteractive
 apt-get update
 apt-get install -y --no-install-recommends \
   ufw fail2ban unattended-upgrades python3-systemd \
   git curl ca-certificates jq unzip
+
+# Installing the package does not schedule the periodic job; write the config
+# explicitly so security patches actually apply.
+cat > /etc/apt/apt.conf.d/20auto-upgrades <<'EOF'
+APT::Periodic::Update-Package-Lists "1";
+APT::Periodic::Unattended-Upgrade "1";
+EOF
 
 # --- firewall ---
 ufw allow OpenSSH

@@ -11,10 +11,11 @@ How this repo and the servers it provisions stay safe.
 
 `setup/setup.sh` hardens a fresh server:
 
-- SSH: root login and password auth disabled (key-only login).
+- SSH: root login and password auth disabled (key-only login), including
+  keyboard-interactive password prompts.
 - Firewall: `ufw` enabled, SSH only.
 - `fail2ban` for SSH brute-force protection.
-- `unattended-upgrades` for automatic security patches.
+- `unattended-upgrades` installed and scheduled for automatic security patches.
 
 ## Secrets at rest
 

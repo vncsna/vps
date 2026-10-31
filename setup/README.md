@@ -21,8 +21,8 @@ Or copy the script over and run it directly. `<user>` is required.
 ## What it does
 
 - Creates a sudo user (with passwordless sudo, since login is key-only) and copies root's SSH key to it.
-- Hardens sshd (`PermitRootLogin no`, `PasswordAuthentication no`).
+- Hardens sshd (`PermitRootLogin no`, `PasswordAuthentication no`, `KbdInteractiveAuthentication no`).
 - Enables `ufw` (allowing SSH only).
-- Installs `fail2ban`, `unattended-upgrades`, and base packages (`git`, `curl`, `jq`, `unzip`, `ca-certificates`).
+- Installs `fail2ban`, `unattended-upgrades`, and base packages (`git`, `curl`, `jq`, `unzip`, `ca-certificates`), and schedules automatic security upgrades.
 
 After it finishes, log out and back in as the new user. Root SSH is disabled from that point on.
