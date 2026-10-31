@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=https://coddy.dev/config.schema.json
+# Coddy config, installed to ~/.coddy/config.yaml by configure.sh.
+# Credentials are not stored here: ${OPENROUTER_API_KEY} comes from
+# ~/.config/coddy/.secrets, loaded by the systemd unit.
+
+providers:
+  - name: openrouter
+    type: openai
+    api_base: https://openrouter.ai/api/v1
+    api_key: "${OPENROUTER_API_KEY}"
+
+models:
+  - model: "openrouter/~deepseek/deepseek-pro-latest"
+    max_tokens: 64000
+    max_context_tokens: 1048576
+  - model: "openrouter/~deepseek/deepseek-flash-latest"
+    max_tokens: 32000
+    max_context_tokens: 1048576
+
+agent:
+  model: "openrouter/~deepseek/deepseek-pro-latest"
+
+httpserver:
+  host: "127.0.0.1"
+  port: 12345
+
+gateways:
+  telegram:
+    enable: false

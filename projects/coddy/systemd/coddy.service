@@ -1,0 +1,18 @@
+[Unit]
+Description=Coddy agent daemon
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+# Run as the user whose ~/.coddy holds the config and ~/.config/coddy holds .secrets.
+# Replace <user> in this file before installing it.
+User=<user>
+WorkingDirectory=/home/<user>/Coddy
+EnvironmentFile=/home/<user>/.config/coddy/.secrets
+ExecStart=/usr/local/bin/coddy serve
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
