@@ -93,11 +93,13 @@ for everyone, so only those files are public:
 | `/apple-touch-icon.png` | iOS home-screen icon |
 
 ```bash
-curl -X POST "https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/apps" \
+# The bypass policy belongs to the new asset app, not to the main app.
+PWA_APP_ID=$(curl -s -X POST "https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/apps" \
   -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" \
-  -d '{"name":"<project> pwa","domain":"<hostname>/manifest.webmanifest","type":"self_hosted","session_duration":"24h","app_launcher_visible":false}'
+  -d '{"name":"<project> pwa","domain":"<hostname>/manifest.webmanifest","type":"self_hosted","session_duration":"24h","app_launcher_visible":false}' \
+  | jq -r .result.id)
 
-curl -X POST "https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/apps/$APP_ID/policies" \
+curl -X POST "https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/apps/$PWA_APP_ID/policies" \
   -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" \
   -d '{"name":"Public PWA asset","decision":"bypass","include":[{"everyone":{}}]}'
 ```
