@@ -7,6 +7,8 @@ Exposes a project's local dashboard/API on a public URL, gated by Cloudflare Acc
 - **Cloudflare Tunnel** (`cloudflared`) maps a hostname (e.g. `agent.example.com`) to a local service (`http://127.0.0.1:17989`).
 - **Cloudflare Access** sits in front of that hostname. Anyone hitting the URL gets a login page first (email OTP by default), and only identities you allow get through.
 
+One tunnel can serve several projects: the ingress list maps one hostname per local service, and each hostname gets its own Access application.
+
 Because `cloudflared` connects from `127.0.0.1`, the service's `localhostOnly` checks still pass, and the web UI + API are same-origin so CORS is not an issue.
 
 ## Prerequisites
