@@ -14,6 +14,8 @@ permission prompts (each new session starts in `ask` mode). Unlike
 - [Secrets exported and copied over](../../secrets/README.md).
 - A Bitwarden item `vps/coddy` with custom fields:
   - `OPENROUTER_API_KEY` — currently the same key agenvoy uses.
+  - `GITHUB_TOKEN` — a fine-grained PAT scoped to the repos Coddy may read and
+    write (`Contents: read/write`, `Metadata: read`), used for git clone/push.
 
 ## Install
 
@@ -30,10 +32,28 @@ it against the release `SHA256SUMS`, and installs `/usr/local/bin/coddy`.
 projects/coddy/configure.sh
 ```
 
-Installs [config.yaml](config.yaml) to `~/.coddy/config.yaml` (mode 0600), creates
-`~/coddy` as the workspace, and validates the file with `coddy -t`. The
+Installs [config.yaml](config.yaml) to `~/.coddy/config.yaml` (mode 0600) and
+[AGENTS.md](AGENTS.md) to `~/.coddy/AGENTS.md`, creates `~/coddy` as the
+workspace, validates the config with `coddy -t`, and wires up git auth. The
 OpenRouter provider and both models are already in the config; the API key is
 read from `~/.config/coddy/.secrets`.
+
+## Instructions
+
+[AGENTS.md](AGENTS.md) is Coddy's standing persona. The agent home copy is read
+in every session, whatever workspace it runs in; workspace and nested
+`AGENTS.md` files add to it, so a cloned repo can carry its own conventions.
+
+## GitHub access
+
+`configure.sh` installs `GITHUB_TOKEN` into git's credential helper and creates
+`~/coddy/repos/`. Clone repos there and commit/push as usual.
+
+Git keeps one HTTPS credential per `github.com`, and agenvoy already configured
+one. Use the same PAT for both agents (scope it to the notes repo plus whatever
+Coddy needs); a different token here replaces agenvoy's entry and its pushes
+stop working. If the two need separate tokens, configure a per-repo credential
+helper instead of the global one.
 
 ## Run as a service
 

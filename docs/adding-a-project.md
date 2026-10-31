@@ -42,8 +42,9 @@ Each project is a self-contained folder under `projects/` that reuses the shared
 The repo is the source of truth; the server runs a copy. Changes under
 `projects/<name>/` don't take effect until they're synced over and re-applied:
 
-- **Persona** — copy `persona.md` and re-apply it to the session:
-  `projects/<name>/set-persona.sh <session-id>`.
+- **Agent instructions** — agenvoy's `persona.md` is re-applied to the session
+  with `projects/agenvoy/set-persona.sh <session-id>`. Coddy's `AGENTS.md` is
+  installed by its `configure.sh`; re-run it and restart the service.
 - **Scripts** — copy the changed script and re-run it.
 - **Systemd units** — copy the unit, then `sudo systemctl daemon-reload` and
   `sudo systemctl restart <name>`.
