@@ -8,7 +8,7 @@ Type=simple
 # Run as the user whose ~/.coddy holds the config and ~/.config/coddy holds .secrets.
 # Replace <user> in this file before installing it.
 User=<user>
-WorkingDirectory=/home/<user>/Coddy
+WorkingDirectory=/home/<user>/coddy
 EnvironmentFile=/home/<user>/.config/coddy/.secrets
 ExecStart=/usr/local/bin/coddy serve
 Restart=on-failure

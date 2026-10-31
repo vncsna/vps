@@ -31,7 +31,7 @@ projects/coddy/configure.sh
 ```
 
 Installs [config.yaml](config.yaml) to `~/.coddy/config.yaml` (mode 0600), creates
-`~/Coddy` as the workspace, and validates the file with `coddy -t`. The
+`~/coddy` as the workspace, and validates the file with `coddy -t`. The
 OpenRouter provider and both models are already in the config; the API key is
 read from `~/.config/coddy/.secrets`.
 

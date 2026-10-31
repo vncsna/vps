@@ -12,7 +12,7 @@ if [[ ! -f "$SECRETS_FILE" ]]; then
   exit 1
 fi
 
-mkdir -p "$HOME/.coddy" "$HOME/Coddy"
+mkdir -p "$HOME/.coddy" "$HOME/coddy"
 install -m 0600 "$SCRIPT_DIR/config.yaml" "$HOME/.coddy/config.yaml"
 
 coddy -t
