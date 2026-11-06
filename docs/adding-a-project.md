@@ -1,25 +1,67 @@
 # Adding a project
 
-Each project is a self-contained folder under `projects/` that reuses the shared setup and secrets layers.
+Each project is a self-contained folder under `projects/` that reuses the shared setup scripts.
 
 ## Steps
 
-1. Copy the template:
+1. Create the project folder and files, filling them in as you go:
 
    ```bash
-   cp -r projects/_template projects/<name>
+   mkdir -p projects/<name>/systemd
    ```
 
-2. Fill in `secrets.env.example` with the keys the project needs, and create a matching Bitwarden item named `vps/<name>` with one custom field per key.
-
-3. Write `install.sh` (install the software) and `configure.sh` (configure it; secrets are already copied over).
-
-4. Add systemd units under `systemd/`.
-
-5. Export secrets locally and copy them over, then on the server:
+   `install.sh` — installs the software:
 
    ```bash
-   secrets/export-secrets.sh <name>          # on your local machine
+   #!/usr/bin/env bash
+   set -euo pipefail
+
+   # install.sh — install <name> and its dependencies.
+   ```
+
+   `configure.sh` — configures it (secrets are already copied over):
+
+   ```bash
+   #!/usr/bin/env bash
+   set -euo pipefail
+
+   # configure.sh — configure <name> (secrets already copied over).
+   ```
+
+   `secrets.env.example` — the keys the project needs:
+
+   ```bash
+   # Keys this project needs, fetched from the Bitwarden item "vps/<name>".
+   # Add one KEY= line per secret; export-secrets.sh fills the values.
+   # EXAMPLE_KEY=
+   ```
+
+   `systemd/<name>.service`:
+
+   ```ini
+   [Unit]
+   Description=<name> daemon
+   After=network-online.target
+   Wants=network-online.target
+
+   [Service]
+   Type=simple
+   # Run as the user whose ~/.config/<name> holds the config and .secrets.
+   User=<user>
+   ExecStart=/usr/local/bin/<name> --daemon
+   Restart=on-failure
+   RestartSec=5
+
+   [Install]
+   WantedBy=multi-user.target
+   ```
+
+2. Create a matching Bitwarden item named `vps/<name>` with one custom field per key in `secrets.env.example`.
+
+3. Export secrets locally and copy them over, then on the server:
+
+   ```bash
+   scripts/export-secrets.sh <name>            # on your local machine
    ssh <user>@<host> 'mkdir -p ~/.config/<name>'
    scp .secrets <user>@<host>:~/.config/<name>/.secrets
    projects/<name>/install.sh
@@ -29,7 +71,39 @@ Each project is a self-contained folder under `projects/` that reuses the shared
    sudo systemctl enable --now <name>
    ```
 
-6. Document the project in its `README.md`.
+4. Document the project in its `README.md`:
+
+   ````markdown
+   # <name>
+
+   One-line description of what this project does.
+
+   ## Prerequisites
+
+   - [Scripts](../scripts/README.md) done.
+   - [Secrets exported and copied over](../scripts/README.md).
+   - A Bitwarden item `vps/<name>` with the custom fields listed in `secrets.env.example`.
+
+   ## Install
+
+   ```bash
+   projects/<name>/install.sh
+   ```
+
+   ## Configure
+
+   ```bash
+   projects/<name>/configure.sh
+   ```
+
+   ## Run
+
+   ```bash
+   sudo cp projects/<name>/systemd/*.service /etc/systemd/system/
+   sudo systemctl daemon-reload
+   sudo systemctl enable --now <name>
+   ```
+   ````
 
 ## Conventions
 
