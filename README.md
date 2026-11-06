@@ -24,15 +24,3 @@ docs/          conventions and how-tos
 2. `ssh root@<host>` and run `scripts/setup.sh <user>`.
 3. Export the project's secrets locally and copy them over (see [scripts](scripts/#secrets)).
 4. Follow a project's `README.md` (e.g. `projects/<project>/`).
-
-## Adding a project
-
-See [docs/adding-a-project.md](docs/adding-a-project.md).
-
-## Security
-
-See [docs/security.md](docs/security.md).
-
-## Postmortem
-
-See [docs/postmortem.md](docs/postmortem.md).
