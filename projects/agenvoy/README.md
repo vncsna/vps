@@ -4,8 +4,8 @@ A personal knowledge-management agent, self-hosted on the VPS. Runs 24/7 as a sy
 
 ## Prerequisites
 
-- [Setup](../../setup/README.md) done.
-- [Secrets exported and copied over](../../secrets/README.md).
+- [Scripts](../../scripts/README.md) done.
+- [Secrets exported and copied over](../../scripts/README.md).
 - A Bitwarden item `vps/agenvoy` with custom fields:
   - `OPENROUTER_API_KEY` — your OpenRouter key.
   - `TELEGRAM_TOKEN` — a bot token from [@BotFather](https://t.me/BotFather).

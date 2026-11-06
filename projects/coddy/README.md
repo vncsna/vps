@@ -10,8 +10,8 @@ permission prompts (each new session starts in `ask` mode). Unlike
 
 ## Prerequisites
 
-- [Setup](../../setup/README.md) done.
-- [Secrets exported and copied over](../../secrets/README.md).
+- [Scripts](../../scripts/README.md) done.
+- [Secrets exported and copied over](../../scripts/README.md).
 - A Bitwarden item `vps/coddy` with custom fields:
   - `OPENROUTER_API_KEY` — currently the same key agenvoy uses.
   - `GITHUB_TOKEN` — a fine-grained PAT scoped to the repos Coddy may read and

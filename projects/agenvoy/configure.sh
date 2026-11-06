@@ -10,10 +10,10 @@ NOTES_REPO="${2:-}"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# 1. Secrets must already be present (exported locally and copied over — see secrets/README.md).
+# 1. Secrets must already be present (exported locally and copied over — see scripts/README.md).
 SECRETS_FILE="$HOME/.config/agenvoy/.secrets"
 if [[ ! -f "$SECRETS_FILE" ]]; then
-  echo "missing $SECRETS_FILE — export locally and scp it over (see secrets/README.md)" >&2
+  echo "missing $SECRETS_FILE — export locally and scp it over (see scripts/README.md)" >&2
   exit 1
 fi
 while IFS='=' read -r key value; do

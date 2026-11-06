@@ -3,13 +3,13 @@ set -euo pipefail
 
 # configure.sh — install the config and AGENTS.md, validate the config, and wire
 # up git auth. Secrets must already be at ~/.config/coddy/.secrets (exported
-# locally and copied over — see secrets/README.md).
+# locally and copied over — see scripts/README.md).
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 SECRETS_FILE="$HOME/.config/coddy/.secrets"
 if [[ ! -f "$SECRETS_FILE" ]]; then
-  echo "missing $SECRETS_FILE — export locally and scp it over (see secrets/README.md)" >&2
+  echo "missing $SECRETS_FILE — export locally and scp it over (see scripts/README.md)" >&2
   exit 1
 fi
 

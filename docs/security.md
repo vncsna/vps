@@ -4,12 +4,12 @@ How this repo and the servers it provisions stay safe.
 
 ## Repo hygiene
 
-- **No secrets are ever committed.** Only `*.env.example` manifests are tracked; real values live in a secrets manager and are exported locally (see [`../secrets/`](../secrets/)). `.secrets` is gitignored.
+- **No secrets are ever committed.** Only `*.env.example` manifests are tracked; real values live in a secrets manager and are exported locally (see [`../scripts/`](../scripts/)). `.secrets` is gitignored.
 - **History is clean.** No secret values or personal details (emails, tokens, hostnames) appear in any commit.
 
 ## Server hardening
 
-`setup/setup.sh` hardens a fresh server:
+`scripts/setup.sh` hardens a fresh server:
 
 - SSH: root login and password auth disabled (key-only login), including
   keyboard-interactive password prompts.
